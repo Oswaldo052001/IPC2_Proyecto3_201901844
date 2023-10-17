@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Front.view import getInfoEstudiante, reporte
+from Front.view import inicio,enlace1, reporte
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('getInfo/', getInfoEstudiante),
-    path('reporte/',reporte),
+    path('', inicio),
+    path('enlace1/',enlace1)
+    #path('grafica/', grafica),
+    #path('reporte/',reporte),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
