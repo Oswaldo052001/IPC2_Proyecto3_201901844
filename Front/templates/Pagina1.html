@@ -1,7 +1,49 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<body style="background-color:#FF0000;">
+ <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Chapín</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/IconoInicial.ico' %}" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel = "stylesheet" />
+    </head>
+<body id="page-top">
    {% include 'barra.html'%}
+           <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+
+                        <div class="container">
+                            <div class="row justify-content-md-center">
+                                <div class="ml-2">
+                                <div id="msg"></div>
+                                <form method="post" id="image-form" enctype="multipart/form-data" onSubmit="return false;">
+                                <div class="form-group">
+                                <input type="file" name="file" class="file">
+                                <div class="input-group my-3">
+                                <input type="text" class="form-control" disabled placeholder="Cargar archivo" id="file">
+                                <div class="input-group-append">
+                                <button type="button" class="browse btn btn-primary">Browse...</button>
+                                </div>
+                                </div>
+                                </div>
+                                <div class="form-group col text-center">
+                                <button name="submit" class="btn btn-danger btn-block">Cargar Archivo</button>
+                                </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </header>
 </body>
 </html>

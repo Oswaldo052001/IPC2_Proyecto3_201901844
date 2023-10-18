@@ -1,8 +1,10 @@
 from flask import jsonify, Flask, request
 from flask_cors import CORS
 
+
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/', methods=['POST'])
 def postHome():
@@ -22,12 +24,11 @@ def addUser():
         return jsonify({'message': 'usuario agregado', 'nombre': nombreLeido, 'pass': mipass})
         
 @app.route('/adduserbybody', methods=['POST'])
-
 def addUserBody():
     micurso = request.json['curso']
     miseccion = request.json['seccion']
     return jsonify({'message': 'Curso agregado', 'curso': micurso, 'seccion': miseccion})    
-   
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=3050)
