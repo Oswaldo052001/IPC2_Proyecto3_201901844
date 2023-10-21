@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
+import unicodedata
 from salida import ArchivoSalida
+from AlmacenarDatos import *
 
 class lecturaxml():
     
@@ -10,36 +12,117 @@ class lecturaxml():
 
     def __init__(self,ruta):
         self.archivo = ET.parse(ruta).getroot()
+        #self.eliminarDatos()
+        self.comprobarDatos()
         self.leerDiccionario()
-        self.leerMensajes()
+        #self.leerMensajes()
         #self.comprobar()
+
+    def comprobarDatos(self):
+        rutaPositivos = "DateBase/PalabrasPositivas.xml"
+        rutaNegativos = "DateBase/PalabrasNegativas.xml"
+        rutaPositivosRechazados = "DateBase/PalabrasPosiRechazadas.xml"
+        rutaNegativosRechazados = "DateBase/PalabrasNegaRechazadas.xml"
+
+        archivoPositivos = ET.parse(rutaPositivos).getroot()
+        archivoNegativos = ET.parse(rutaNegativos).getroot()
+        archivoPositivosRechazados = ET.parse(rutaPositivosRechazados).getroot()
+        archivoNegativosRechazados = ET.parse(rutaNegativosRechazados).getroot()
+
+
+        for palabra in archivoPositivos.findall('palabra'):
+            self.senti_posi.append(palabra.text)
     
+        for palabra in archivoNegativos.findall('palabra'):
+            self.senti_nega.append(palabra.text)
+
+        for palabra in archivoPositivosRechazados.findall('palabra'):
+            self.senti_posi_rechazados.append(palabra.text)
+
+        for palabra in archivoNegativosRechazados.findall('palabra'):
+            self.senti_nega_rechazados.append(palabra.text)
+
+
+    def eliminarDatos(self):
+        rutaPositivos = "DateBase/PalabrasPositivas.xml"
+        rutaNegativos = "DateBase/PalabrasNegativas.xml"
+        rutaPositivosRechazados = "DateBase/PalabrasPosiRechazadas.xml"
+        rutaNegativosRechazados = "DateBase/PalabrasNegaRechazadas.xml"
+
+        archivoPositivos = ET.parse(rutaPositivos)
+        palabrasPositivas = archivoPositivos.getroot()
+
+        archivoNegativos = ET.parse(rutaNegativos)
+        palabrasNegativas= archivoNegativos.getroot()
+
+        archivoPositivosRechazados = ET.parse(rutaPositivosRechazados)
+        palabrasPositivasRechazadas= archivoPositivosRechazados.getroot()
+
+        archivoNegativosRechazados = ET.parse(rutaNegativosRechazados)
+        palabrasNegativasRechazadas= archivoNegativosRechazados.getroot()
+
+
+        for palabra in palabrasPositivas.findall('palabra'):
+            palabrasPositivas.remove(palabra)
+
+        for palabra in palabrasNegativas.findall('palabra'):
+            palabrasNegativas.remove(palabra)
+
+        for palabra in palabrasPositivasRechazadas.findall('palabra'):
+            palabrasPositivasRechazadas.remove(palabra)
+
+        for palabra in palabrasNegativasRechazadas.findall('palabra'):
+            palabrasNegativasRechazadas.remove(palabra)
+
+        ET.indent(archivoPositivos, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoNegativos, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoPositivosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoNegativosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+
+        archivoPositivos.write("DateBase/PalabrasPositivas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativos.write("DateBase/PalabrasNegativas.xml", encoding='utf-8', xml_declaration=True)
+        archivoPositivosRechazados.write("DateBase/PalabrasPosiRechazadas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativosRechazados.write("DateBase/PalabrasNegaRechazadas.xml", encoding='utf-8', xml_declaration=True)
+
     def leerDiccionario(self):
         sentimientosPositivos = self.archivo.find('sentimientos_positivos')
 
         if sentimientosPositivos:
             #Recorriendo el for de sentimientos positivos
             for palabra in sentimientosPositivos.findall('palabra'):
+                palabra.text = self.elimina_tildes(palabra.text.lower())
                 if len(self.senti_nega) == 0:
-                        self.senti_posi.append(palabra.text)
+                        #Validando si ya esta agregada esa palabra
+                        if self.Existente(palabra.text, self.senti_posi) == False:
+                            palabra.text = self.elimina_tildes(palabra.text.lower())
+                            self.senti_posi.append(palabra.text)
                 else:
                     if self.repetidoSentimientoPositivo(palabra.text):
-                        self.senti_nega.append(palabra.text)
-
-        
+                        #Validando si ya esta agregada esa palabra
+                        if self.Existente(palabra.text, self.senti_posi) == False:
+                            palabra.text = self.elimina_tildes(palabra.text.lower())
+                            self.senti_posi.append(palabra.text)
+                
+    
         sentimientosNegativos = self.archivo.find('sentimientos_negativos')
         #Recoriendo el for de sientimientos negativos
         if sentimientosNegativos:
             for palabra in sentimientosNegativos.findall('palabra'):
+                palabra.text = self.elimina_tildes(palabra.text.lower())
                 if self.repetidoSentimientoNegativo(palabra.text):
-                    self.senti_nega.append(palabra.text)
+                    #Validando si ya esta agregada esa palabra
+                    if self.Existente(palabra.text, self.senti_nega) == False:
+                        palabra.text = self.elimina_tildes(palabra.text.lower())
+                        self.senti_nega.append(palabra.text)
 
 
-        archivo = ArchivoSalida(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
-        archivo.AgregarConfiguracion()
-        archivo.crearArchivo()
+        GuardarPalabrasPositivas(self.senti_posi)
+        GuardarPalabrasNegativas(self.senti_nega)
+        GuardarPalabrasPositivasRechazadas(self.senti_posi_rechazados)
+        GuardarPalabrasNegativasRechazadas(self.senti_nega_rechazados)
+        ArchivoSalida(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
 
-    
+
     def leerMensajes(self):
         for mensaje in self.archivo.findall('MENSAJE'):
             fecha = mensaje.find('FECHA')
@@ -47,24 +130,35 @@ class lecturaxml():
             print(fecha.text)
             print(texto.text)
 
-        
-    
-    def repetidoSentimientoNegativo(self, palabra):
-        unico = True
-        for valor in self.senti_posi:
-            if valor.lower() == palabra.lower():
-                self.senti_nega_rechazados.append(palabra)
-                unico = False
-        return unico
-    
+    def Existente(self, palabra, arreglo):
+        Existe = False
+        if palabra in arreglo:
+            Existe = True
+        return Existe
+
     def repetidoSentimientoPositivo(self, palabra):
         unico = True
         for valor in self.senti_nega:
             if valor.lower() == palabra.lower():
-                self.senti_posi_rechazados.append(palabra)
+                #Validando si ya esta agregada esa palabra
+                if self.Existente(palabra, self.senti_posi_rechazados) == False:
+                    self.senti_posi_rechazados.append(palabra.lower())
                 unico = False
         return unico
-
+ 
+    def repetidoSentimientoNegativo(self, palabra):
+        unico = True
+        for valor in self.senti_posi:
+            if valor.lower() == palabra.lower():
+                #Validando si ya esta agregada esa palabra
+                if self.Existente(palabra, self.senti_nega_rechazados) == False:
+                    self.senti_nega_rechazados.append(palabra.lower())
+                unico = False
+        return unico
+    
+    def elimina_tildes(self,cadena):
+        s = ''.join((c for c in unicodedata.normalize('NFD',cadena) if unicodedata.category(c) != 'Mn'))
+        return s
 
     def comprobar(self):
         print("\nSENTIMIENTOS POSITIVOS")
@@ -79,6 +173,7 @@ class lecturaxml():
         print("\nSENTIMIENTOS NEGATIVOS RECHAZADOS")
         print("\n".join(map(str, self.senti_nega_rechazados)))
         
-prueba = lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
-prueba2 = lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Mensajes.xml")
+lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
+#lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
+#prueba2 = lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Mensajes.xml")
 
