@@ -2,6 +2,7 @@ from flask import jsonify, Flask, request
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from Lecturaxml import lecturaxml
+from EliminarDatos import Eliminar
 import os
 
 
@@ -19,8 +20,14 @@ def subirArchivo():
     file.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
     url = "ArchivosEntradas/"+filename
     lecturaxml(url)
-    
     return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
+
+
+@app.route('/eliminarDatos', methods=['POST'])
+def eliminarDatos():
+    Eliminar().eliminarDatosFechas()
+    return jsonify({'message': 'Se elimino correctamente'})
+
 
 @app.route('/', methods=['POST'])
 def postHome():

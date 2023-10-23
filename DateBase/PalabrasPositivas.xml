@@ -1,12 +1,2 @@
 <?xml version='1.0' encoding='utf-8'?>
-<PalabrasPositivas>
-	<palabra> bueno </palabra>
-	<palabra> excelente </palabra>
-	<palabra> cool </palabra>
-	<palabra> satisfecho </palabra>
-	<palabra> alegres </palabra>
-	<palabra> mejor </palabra>
-	<palabra> genial </palabra>
-	<palabra> fantastico </palabra>
-	<palabra> increible </palabra>
-</PalabrasPositivas>
+<PalabrasPositivas />

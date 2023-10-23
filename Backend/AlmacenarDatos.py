@@ -4,9 +4,8 @@ import xml.etree.cElementTree as ET
 #                       CLASE PARA AGUARDAR LAS PALABRAS POSITIVAS EN UN XML COMO BASE DE DATOS
 class GuardarPalabrasPositivas():
 
-    root = ET.Element("PalabrasPositivas")
-
     def __init__(self, valores):
+        self.root = ET.Element("PalabrasPositivas")
         self.valores = valores
         self.AgregarDatos()
         self.crearArchivo()
@@ -25,9 +24,8 @@ class GuardarPalabrasPositivas():
 #                       CLASE PARA AGUARDAR LAS PALABRAS NEGATIVAS EN UN XML COMO BASE DE DATOS
 class GuardarPalabrasNegativas():
 
-    root = ET.Element("PalabrasNegativas")
-
     def __init__(self, valores):
+        self.root = ET.Element("PalabrasNegativas")
         self.valores = valores
         self.AgregarDatos()
         self.crearArchivo()
@@ -47,9 +45,8 @@ class GuardarPalabrasNegativas():
 #               CLASE PARA AGUARDAR LAS PALABRAS POSITIVAS RECHAZADAS EN UN XML COMO BASE DE DATOS
 class GuardarPalabrasPositivasRechazadas():
 
-    root = ET.Element("PalabrasPositivasRechazadas")
-
     def __init__(self, valores):
+        self.root = ET.Element("PalabrasPositivasRechazadas")
         self.valores = valores
         self.AgregarDatos()
         self.crearArchivo()
@@ -69,9 +66,8 @@ class GuardarPalabrasPositivasRechazadas():
 #               CLASE PARA AGUARDAR LAS PALABRAS NEGATIVAS RECHAZADAS EN UN XML COMO BASE DE DATOS
 class GuardarPalabrasNegativasRechazadas():
 
-    root = ET.Element("PalabrasNegativasRechazadas")
-
     def __init__(self, valores):
+        self.root = ET.Element("PalabrasNegativasRechazadas")
         self.valores = valores
         self.AgregarDatos()
         self.crearArchivo()
@@ -92,9 +88,8 @@ class GuardarPalabrasNegativasRechazadas():
 #               CLASE PARA AGUARDAR LOS HASTAGS Y USUARIOS POR FECHAS
 class GuardarDatosFecha():
 
-    root = ET.Element("DatosMensaje")
-
     def __init__(self, ListaFechas):
+        self.root = ET.Element("DatosMensaje")
         self.listFechas = ListaFechas
         self.AgregarDatos()
         self.crearArchivo()
@@ -120,7 +115,16 @@ class GuardarDatosFecha():
                 Hast.text = usuario.getDato()
                 usuario = usuario.getSiguiente()
 
+            #Insertando los mensajes en esa fecha
+            mesj = fecha.getDato().listaMensajes.getInicio()
+            mensajes = ET.SubElement(DatoFecha, "mensajes", total = str(fecha.getDato().listaMensajes.size))
+            while mesj:
+                mensaje = ET.SubElement(mensajes, "mensaje", tipo = mesj.getDato().getTipo(), hora =  mesj.getDato().getHora() )
+                mensaje.text = mesj.getDato().getMensaje().strip()
+                mesj = mesj.getSiguiente()
+
             fecha = fecha.getSiguiente()
+
 
     def crearArchivo(self):
         arbol = ET.ElementTree(self.root)
