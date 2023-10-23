@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<diccionario>
+
+<sentimientos_positivos>
+	<palabra> malo </palabra>
+	<palabra> pésimo </palabra>
+	<palabra> triste </palabra>
+	<palabra> Claramente </palabra>
+	<palabra> Impresionantes </palabra>
+	<palabra> Positivo </palabra>
+	<palabra> Mucho </palabra>
+	<palabra> Importancia </palabra>
+	<palabra> Genial </palabra>
+	<palabra> Bueno </palabra>
+	<palabra> Excelente </palabra>
+	<palabra> Maravilloso </palabra>
+    <palabra> genial </palabra>
+	<palabra> fantastico </palabra>
+	<palabra> increible </palabra>
+    <palabra> Disfrutado </palabra>
+	<palabra> Placer </palabra>
+	<palabra> increible </palabra>
+    <palabra> Agradable </palabra>
+    <palabra> Bonito </palabra>
+	<palabra> Apasionado </palabra>
+</sentimientos_positivos>
+
+<sentimientos_negativos>
+	<palabra> Agrandado </palabra>
+	<palabra> Pendenciero </palabra>
+	<palabra> Antipático </palabra>
+	<palabra> Farsante </palabra>
+	<palabra> Vengativo </palabra>
+	<palabra> Engreído </palabra>
+	<palabra> lamentable </palabra>
+	<palabra> Dañino </palabra>
+	<palabra> Despreciable </palabra>
+	<palabra> Resentido </palabra>
+	<palabra> Falso </palabra>
+	<palabra> Avaro </palabra>
+	<palabra> Farsante </palabra>
+</sentimientos_negativos>
+
+</diccionario>
