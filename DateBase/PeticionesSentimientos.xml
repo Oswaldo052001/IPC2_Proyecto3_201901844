@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PeticionesSentimientos>
+	<Sentimientos fechaInicio="01/01/2023" fechaFin="30/06/2023">
+		<fecha fecha="15/01/2023">
+			<Mensajes_positivos>1</Mensajes_positivos>
+			<Mensajes_negativos>0</Mensajes_negativos>
+			<Mensajes_nuetros>1</Mensajes_nuetros>
+		</fecha>
+		<fecha fecha="17/03/2023">
+			<Mensajes_positivos>1</Mensajes_positivos>
+			<Mensajes_negativos>0</Mensajes_negativos>
+			<Mensajes_nuetros>0</Mensajes_nuetros>
+		</fecha>
+		<fecha fecha="20/06/2023">
+			<Mensajes_positivos>0</Mensajes_positivos>
+			<Mensajes_negativos>1</Mensajes_negativos>
+			<Mensajes_nuetros>0</Mensajes_nuetros>
+		</fecha>
+		<fecha fecha="22/03/2023">
+			<Mensajes_positivos>0</Mensajes_positivos>
+			<Mensajes_negativos>0</Mensajes_negativos>
+			<Mensajes_nuetros>1</Mensajes_nuetros>
+		</fecha>
+	</Sentimientos>
+</PeticionesSentimientos>
