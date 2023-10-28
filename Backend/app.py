@@ -1,4 +1,4 @@
-from flask import jsonify, Flask, request, Response, send_file
+from flask import jsonify, Flask, request, send_file
 import xml.etree.ElementTree as ET
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
@@ -7,8 +7,6 @@ from Peticiones import peticiones
 import os
 import re
 
-
-
 app = Flask(__name__)
 CORS(app)
 
@@ -16,25 +14,25 @@ app.config["UPLOAD_FOLDER"] =  "ArchivosEntradas"
 ALLOWED_EXTENSIONS = set(['xml'])
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/grabarMensajes', methods=['POST'])
 def subirArchivo():
-    file = request.files['file']
+    file = request.files["file"]
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
     url = "ArchivosEntradas/"+filename
-    try:
+    '''try:
         lecturaxml(url)
         return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
-
     except:
-        return jsonify({'archivo': filename, 'message': 'Ocurrió un error'})
+        return jsonify({'archivo': filename, 'message': 'Ocurrió un error'})'''
+    return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
 
-@app.route('/eliminarDatos', methods=['POST'])
+@app.route('/limpiarDatos', methods=['POST'])
 def eliminarDatos():
     Eliminar()
     return jsonify({'message': 'Se elimino correctamente'})
 
-@app.route('/peticionHastags', methods=['POST'])
+@app.route('/devolverHashtags', methods=['POST'])
 def peticionHastags():
     if request.method == 'POST':
         try:
@@ -61,7 +59,7 @@ def peticionHastags():
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
 
 
-@app.route('/peticionMenciones', methods=['POST'])
+@app.route('/devolverMenciones', methods=['POST'])
 def peticionMencion():
     if request.method == 'POST':
         try:
@@ -88,7 +86,7 @@ def peticionMencion():
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
         
 
-@app.route('/peticionSentimientos', methods=['POST'])
+@app.route('/devolverSentimientos', methods=['POST'])
 def peticionSentimientos():
     if request.method == 'POST':
         try:
@@ -134,6 +132,15 @@ def getPalabrasPositivasRechazadas():
 def getPalabrasNegativasRechazadas():
     return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PalabrasNegaRechazadas.xml')
 
-        
+
+@app.route('/ResumenMensajes', methods=['GET']) 
+def getResumenMensajes():
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/ArchivosSalidas/resumenMensajes.xml')
+
+
+@app.route('/ResumenConfig', methods=['GET']) 
+def getResumenConfig():
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/ArchivosSalidas/resumenConfig.xml')
+
 if __name__ == '__main__':
     app.run(debug=True, port=3050)

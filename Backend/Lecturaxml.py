@@ -4,7 +4,7 @@ import unicodedata
 import re
 
 #Archivos Creados
-from salida import ArchivoSalida
+from salida import ResumenMensajes, resumenConfig
 from ListaSimple import ListaSimple
 from Fechas import Fecha
 from AlmacenarDatos import *
@@ -92,7 +92,7 @@ class lecturaxml():
         GuardarPalabrasNegativas(self.senti_nega)
         GuardarPalabrasPositivasRechazadas(self.senti_posi_rechazados)
         GuardarPalabrasNegativasRechazadas(self.senti_nega_rechazados)
-        ArchivoSalida(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
+        ResumenMensajes(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
 
 #----------------------------------------------------FUNCION PARA LEER MENSAJES----------------------------------------------------------------------------------#
 
@@ -165,6 +165,7 @@ class lecturaxml():
                     self.fechatemporal.getDato().agregarMensaje(textooriginal, tipo, horaEncontrada)
                     
         GuardarDatosFecha(self.listaFechas)
+        resumenConfig(self.listaFechas)
 
 #-------------------------------------- FUNCIONES PARA COMPROBRAR REPETIDOS MENSAJES -----------------------------------------------
    
@@ -381,7 +382,7 @@ class Eliminar():
 
 
 
-#lecturaDicionarioxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
-#lecturaDicionarioxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
-#lecturaxml("DocumentosPrueba/Mensajes.xml")
-#lecturaxml("DocumentosPrueba/Mensajes2.xml")
+#lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
+#lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
+lecturaxml("DocumentosPrueba/Mensajes.xml")
+lecturaxml("DocumentosPrueba/Mensajes2.xml")

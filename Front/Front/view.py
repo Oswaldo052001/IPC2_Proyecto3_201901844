@@ -1,4 +1,8 @@
 from django.http import HttpResponse
+from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.views.decorators.csrf import csrf_protect
 from django.template import loader
 from requests import post, get
 
@@ -7,12 +11,16 @@ def inicio(request):
     html = objtmp.render()
     return HttpResponse(html)
 
+def Cargar(request):
+    if 'file' in request.FILES:
+        archivo = request.FILES['file']
+        url = "http://127.0.0.1:3050/grabarMensajes"
+        mensaje = post(url, files= request.FILES)
+        if mensaje.json().get("message") == "Carga exitosa":
+            texto = mensaje.json().get("message")
+            return render(request,'Pagina1.html', {"mensaje":texto})
 
-def enlace1(request):
-    objtmp = loader.get_template("Pagina1.html")
-    html = objtmp.render()
-    return HttpResponse(html)
-
+    return render(request,'Pagina1.html')
 
 def reporte(reques):
 
