@@ -29,10 +29,10 @@ class lecturaxml():
         #self.comprobar()
 
     def AguardandoDatosPensamientos_DateBase(self):
-        rutaPositivos = "DateBase/PalabrasPositivas.xml"
-        rutaNegativos = "DateBase/PalabrasNegativas.xml"
-        rutaPositivosRechazados = "DateBase/PalabrasPosiRechazadas.xml"
-        rutaNegativosRechazados = "DateBase/PalabrasNegaRechazadas.xml"
+        rutaPositivos = "Front/DateBase/PalabrasPositivas.xml"
+        rutaNegativos = "Front/DateBase/PalabrasNegativas.xml"
+        rutaPositivosRechazados = "Front/DateBase/PalabrasPosiRechazadas.xml"
+        rutaNegativosRechazados = "Front/DateBase/PalabrasNegaRechazadas.xml"
 
         archivoPositivos = ET.parse(rutaPositivos).getroot()
         archivoNegativos = ET.parse(rutaNegativos).getroot()
@@ -323,9 +323,10 @@ class Eliminar():
     def __init__(self):
         self.eliminarDatosFechas()
         self.eliminarDatosSentimientos()
+        self.eliminarConfiguraciones()
 
     def eliminarDatosFechas(self):
-        rutafecha = "DateBase/Fechas.xml"
+        rutafecha = "Front/DateBase/Fechas.xml"
         archivofechas = ET.parse(rutafecha)
         fechas = archivofechas.getroot()
 
@@ -333,14 +334,54 @@ class Eliminar():
             fechas.remove(fecha)
 
         ET.indent(fechas, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
-        archivofechas.write("DateBase/Fechas.xml", encoding='utf-8', xml_declaration=True)
+        archivofechas.write("Front/DateBase/Fechas.xml", encoding='utf-8', xml_declaration=True)
+
+
+    def eliminarConfiguraciones(self):
+        #Eliminando configuracion
+        rutafecha = "Front/ArchivosSalidas/resumenConfig.xml"
+        archivofechas = ET.parse(rutafecha)
+        archivo = archivofechas.getroot()
+        palabraposi = archivo.find('PALABRAS_POSITIVAS')
+        palabranega = archivo.find('PALABRAS_POSITIVAS_RECHAZADAS')
+        palabraposirecha = archivo.find('PALABRAS_NEGATIVAS')
+        palabranegarecha = archivo.find('PALABRAS_NEGATIVAS_RECHAZADAS')
+        
+        if palabraposi != None:
+            archivo.remove(palabraposi)
+
+        if palabranega != None:
+            archivo.remove(palabranega)
+        
+        if palabraposirecha != None:
+            archivo.remove(palabraposirecha)
+        
+        if palabranegarecha != None:
+            archivo.remove(palabranegarecha)
+
+
+        #Eliminando confiMensajes
+        ruta = "Front/ArchivosSalidas/resumenMensajes.xml"
+        archivoresumen = ET.parse(ruta)
+        confiMensajes = archivoresumen.getroot()
+        
+        for tiempo in confiMensajes.findall('TIEMPO'):
+            confiMensajes.remove(tiempo)
+
+
+
+        ET.indent(archivoresumen, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        archivoresumen.write("Front/ArchivosSalidas/resumenMensajes.xml", encoding='utf-8', xml_declaration=True)
+       
+        ET.indent(archivo, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        archivofechas.write("Front/ArchivosSalidas/resumenConfig.xml", encoding='utf-8', xml_declaration=True)
 
     def eliminarDatosSentimientos(self):
         #Obteniendo las rutas de las bases de datos tipo xml para poder eliminar su contenido
-        rutaPositivos = "DateBase/PalabrasPositivas.xml"
-        rutaNegativos = "DateBase/PalabrasNegativas.xml"
-        rutaPositivosRechazados = "DateBase/PalabrasPosiRechazadas.xml"
-        rutaNegativosRechazados = "DateBase/PalabrasNegaRechazadas.xml"
+        rutaPositivos = "Front/DateBase/PalabrasPositivas.xml"
+        rutaNegativos = "Front/DateBase/PalabrasNegativas.xml"
+        rutaPositivosRechazados = "Front/DateBase/PalabrasPosiRechazadas.xml"
+        rutaNegativosRechazados = "Front/DateBase/PalabrasNegaRechazadas.xml"
 
         archivoPositivos = ET.parse(rutaPositivos)
         palabrasPositivas = archivoPositivos.getroot()
@@ -375,14 +416,14 @@ class Eliminar():
         ET.indent(archivoPositivosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
         ET.indent(archivoNegativosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
 
-        archivoPositivos.write("DateBase/PalabrasPositivas.xml", encoding='utf-8', xml_declaration=True)
-        archivoNegativos.write("DateBase/PalabrasNegativas.xml", encoding='utf-8', xml_declaration=True)
-        archivoPositivosRechazados.write("DateBase/PalabrasPosiRechazadas.xml", encoding='utf-8', xml_declaration=True)
-        archivoNegativosRechazados.write("DateBase/PalabrasNegaRechazadas.xml", encoding='utf-8', xml_declaration=True)
+        archivoPositivos.write("Front/DateBase/PalabrasPositivas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativos.write("Front/DateBase/PalabrasNegativas.xml", encoding='utf-8', xml_declaration=True)
+        archivoPositivosRechazados.write("Front/DateBase/PalabrasPosiRechazadas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativosRechazados.write("Front/DateBase/PalabrasNegaRechazadas.xml", encoding='utf-8', xml_declaration=True)
 
 
 
 #lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
 #lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
-lecturaxml("DocumentosPrueba/Mensajes.xml")
-lecturaxml("DocumentosPrueba/Mensajes2.xml")
+#lecturaxml("DocumentosPrueba/Mensajes.xml")
+#lecturaxml("DocumentosPrueba/Mensajes2.xml")
