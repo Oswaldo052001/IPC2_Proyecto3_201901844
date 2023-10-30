@@ -1,2 +1,5 @@
 Backend/__pycache__
 ArchivosEntradas
+node_modules
+package-lock.json
+package.json

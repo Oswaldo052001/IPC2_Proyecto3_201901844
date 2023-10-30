@@ -20,12 +20,13 @@ def subirArchivo():
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
     url = "ArchivosEntradas/"+filename
-    '''try:
+    try:
         lecturaxml(url)
         return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
     except:
-        return jsonify({'archivo': filename, 'message': 'Ocurrió un error'})'''
-    return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
+        return jsonify({'archivo': filename, 'message': 'Ocurrió un error'})
+    
+
 
 @app.route('/limpiarDatos', methods=['POST'])
 def eliminarDatos():
@@ -43,8 +44,6 @@ def peticionHastags():
             for fecha in fechainicioSeparada:
                 if re.findall(ER_fecha,fecha):
                     fechaInicioEncontrada = fecha
-
-
 
             fechafin = request.form['fechafin']
             fechafinSeparada = fechafin.split()
@@ -70,9 +69,7 @@ def peticionMencion():
             for fecha in fechainicioSeparada:
                 if re.findall(ER_fecha,fecha):
                     fechaInicioEncontrada = fecha
-
-
-
+    
             fechafin = request.form['fechafin']
             fechafinSeparada = fechafin.split()
 
@@ -84,12 +81,13 @@ def peticionMencion():
             return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PeticionesMenciones.xml')
         except:
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
-        
+
+
 
 @app.route('/devolverSentimientos', methods=['POST'])
 def peticionSentimientos():
     if request.method == 'POST':
-        try:
+        try:    
             ER_fecha = r"\b(0[1-9]|[12]\d|3[01])[/](0[1-9]|1[0-2])[/](19\d\d|20\d\d)\b"
             fechainicio = request.form['fechainicio']
             fechainicioSeparada = fechainicio.split()

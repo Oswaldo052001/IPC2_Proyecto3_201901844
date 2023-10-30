@@ -102,3 +102,21 @@ for x in valores:
 
 print("\n".join(map(str, unico)))'''
 
+
+ruta = 'DateBase/PeticionesHashtags.xml'
+archivo = ET.parse(ruta).getroot()
+valores = []
+valor = dict()
+hashtagas = archivo.find('hashtags')
+for fecha in hashtagas.findall('fecha'):
+    valor = {'fecha': fecha.get('fecha')}
+    for hastag in fecha.findall('hashtag'):
+        valor[hastag.text] = hastag.get('cantidad') 
+    valores.append(valor)
+
+
+for k in valor.keys():
+    print(k)
+
+for x in valores:
+    print(x)
