@@ -1,5 +1,11 @@
 import re
 import unicodedata
+import xml.etree.ElementTree as ET
+import xmltodict
+import json
+
+
+
 ''''
 pattern = r"\d{3}-\d{3}-\d{4}"
 phone_number = input("Introduce tu número de teléfono (en formato 123-456-7890): ")
@@ -10,7 +16,7 @@ else:
     print("Número de teléfono inválido. Introduce un número en el formato 123-456-7890.")
 '''
 
-
+'''
 # Supongamos que tenemos una lista de números de teléfono con diferentes formatos
 telefonos = ["(123) 456-7890", "123-456-7890,", "123.456.7890"]
 usuario = ["@Maria", "Omar", "California123", "@Oswaldo_123","@13456Olas"]
@@ -94,4 +100,23 @@ for x in valores:
 		if x not in repetido:
 			repetido.append(x)
 
-print("\n".join(map(str, unico)))
+print("\n".join(map(str, unico)))'''
+
+
+ruta = 'DateBase/PeticionesHashtags.xml'
+archivo = ET.parse(ruta).getroot()
+valores = []
+valor = dict()
+hashtagas = archivo.find('hashtags')
+for fecha in hashtagas.findall('fecha'):
+    valor = {'fecha': fecha.get('fecha')}
+    for hastag in fecha.findall('hashtag'):
+        valor[hastag.text] = hastag.get('cantidad') 
+    valores.append(valor)
+
+
+for k in valor.keys():
+    print(k)
+
+for x in valores:
+    print(x)

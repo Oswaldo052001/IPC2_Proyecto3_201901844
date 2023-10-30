@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<DatosMensaje>
+	<Fecha date="15/01/2023">
+		<hashtags total="4">
+			<hashtag>#bienvenidaUSAC#</hashtag>
+			<hashtag>#NuevaVista#</hashtag>
+			<hashtag>#VertePronto#</hashtag>
+			<hashtag>#HoteltNuevaVista#</hashtag>
+		</hashtags>
+		<usuarios total="4">
+			<usuario>@estudiante01</usuario>
+			<usuario>@estudiante02</usuario>
+			<usuario>@Omar234</usuario>
+			<usuario>@Kritina12_2</usuario>
+		</usuarios>
+		<mensajes total="2">
+			<mensaje tipo="neutro" hora="15:25">Bienvenido a USAC @estudiante01 @estudiante02, es un gusto que seas parte de esta institución 
+            #bienvenidaUSAC#</mensaje>
+			<mensaje tipo="positivo" hora="15:20">Bienvenido a USAC @Omar234 @Kritina12_2, estoy muy satisfecho de que todo lo que hayas visto haya sido 
+            excelente esperamos que nos vuelvas a visitar y estaremos alegres de volverte a ver, es importante que 
+            tu visita a nuestro hotel #NuevaVista# vaya creciendo y sea un excelente lugar de convivencia y sea cool para 
+            los jovenes, cualquier enojo o pésimo servicio que haya visto espero que no los hagan saber para ser un mejor
+            luegar con nada mas que agregar me despido de ustedes y espero #VertePronto# #HoteltNuevaVista#.</mensaje>
+		</mensajes>
+	</Fecha>
+	<Fecha date="17/03/2023">
+		<hashtags total="3">
+			<hashtag>#NuevaVista#</hashtag>
+			<hashtag>#VertePronto#</hashtag>
+			<hashtag>#HoteltNuevaVista#</hashtag>
+		</hashtags>
+		<usuarios total="2">
+			<usuario>@Omar234</usuario>
+			<usuario>@Kritina12_2</usuario>
+		</usuarios>
+		<mensajes total="1">
+			<mensaje tipo="positivo" hora="07:30">Bienvenido a USAC @Omar234 @Kritina12_2, estoy muy satisfecho de que todo lo que hayas visto haya sido 
+            excelente esperamos que nos vuelvas a visitar y estaremos alegres de volverte a ver, es importante que 
+            tu visita a nuestro hotel #NuevaVista# vaya creciendo y sea un excelente lugar de convivencia y sea cool para 
+            los jovenes, cualquier enojo o pésimo servicio que haya visto espero que no los hagan saber para ser un mejor
+            luegar con nada mas que agregar me despido de ustedes y espero #VertePronto# #HoteltNuevaVista#.</mensaje>
+		</mensajes>
+	</Fecha>
+	<Fecha date="20/06/2023">
+		<hashtags total="2">
+			<hashtag>#Vodafone#</hashtag>
+			<hashtag>#atencionalcliente#</hashtag>
+		</hashtags>
+		<usuarios total="1">
+			<usuario>@vodafone_es</usuario>
+		</usuarios>
+		<mensajes total="1">
+			<mensaje tipo="negativo" hora="20:01">Pésimo servicio de @vodafone_es tengo una tienda desde hace varias semanas para instalar la corriente 
+        electrica, viene el técnico y sigue sin poder solucionarlo porque desde Vodafone no le dan solución y seguimos
+        sin respuesta. Lamentable #Vodafone# y su #atencionalcliente#</mensaje>
+		</mensajes>
+	</Fecha>
+	<Fecha date="28/08/2023">
+		<hashtags total="3">
+			<hashtag>#OPINION#</hashtag>
+			<hashtag>#Actualización#</hashtag>
+			<hashtag>#Call_of_duty#</hashtag>
+		</hashtags>
+		<usuarios total="1">
+			<usuario>@Call_of_Duty</usuario>
+		</usuarios>
+		<mensajes total="1">
+			<mensaje tipo="negativo" hora="10:15">@Call_of_Duty es un buen juego, llevo jugandolo como 2 años, pero antes no tenía tantas fallas, ejemplo:
+        se equivoca mucho, no se ponen las armas rapido, siempre se pone cuando ya me matan, a veces dice "mala conexión 
+        del internet" cuando el internet esta bien, osea, eso pasa mucho, ahora la pantalla se pone negra, es un error 
+        todo feo y eso me molesta. Ya arreglaron unas cosas, pero la nueva actualización no me gustó no creo que ya
+        sea la unica, pero tambien llena espacio, ojala que mejoren esos errores porque es lamentable su rendimiento.
+        #OPINION# #Actualización#  #Call_of_duty#.</mensaje>
+		</mensajes>
+	</Fecha>
+	<Fecha date="22/03/2023">
+		<hashtags total="2">
+			<hashtag>#Duelos_de_Escuadra#</hashtag>
+			<hashtag>#ModoEscuadra#</hashtag>
+		</hashtags>
+		<usuarios total="4">
+			<usuario>@Free_fire</usuario>
+			<usuario>@Garena</usuario>
+			<usuario>@Youtubers</usuario>
+			<usuario>@Nacho</usuario>
+		</usuarios>
+		<mensajes total="1">
+			<mensaje tipo="neutro" hora="07:20">Es fantastico @Free_fire, comparto la opinión de @Garena @Youtubers y de @Nacho que es un increible juego,
+        el juego me encanta y los personajes también, No se pero desearia que implementen nuevas cosas como nuevos modos
+        de juego o nuevos mapas para jugar, el juego está genial, mayormente #Duelos_de_Escuadra# aun que algunas veces
+        me aparece error y cuando se carga se eliminan todos mi slogros y algunas armas conseguidas en partidas, cuando
+        entro en #ModoEscuadra# me falla todo y termino perdiendo eso me molesta mucho y es triste cuando pierdo.</mensaje>
+		</mensajes>
+	</Fecha>
+	<Fecha date="18/09/2023">
+		<hashtags total="0" />
+		<usuarios total="0" />
+		<mensajes total="1">
+			<mensaje tipo="positivo" hora="16:20">La película "Talentos Ocultos" me pareció muy bonito, pero lo que me pareció malo fue el reparto que tuvo. 
+        Aunque los actores que que trabajaron en esta película actuaron excelente, todos se metieron en su papel, cuando 
+        estaba viendo ma película esta me transmitió muchos sentimientos, creo que esta es una gran película que todos deberían
+        de ver en algún momento de su vida ya que les cambiará la perspectiva de ver todo a su alrededor, 
+        los actores trabajaron muy bien en sus papeles. Me parece una excelente película.</mensaje>
+		</mensajes>
+	</Fecha>
+</DatosMensaje>
