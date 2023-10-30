@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+        <title>Chapín</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/IconoInicial.ico' %}" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="{% static 'css/styles2.css' %}" rel = "stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ </head>
+<body id="page-top">
+   {% include 'barra.html'%}
+           <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="ml-2">
+                            <form method="post">
+                                {% csrf_token %}
+                                <select id="cmbColumn" class="cmbColumn" name="select">
+                                  <option name ="hashtag">Hashtag</option>
+                                  <option name = "mencion">Menciones</option>
+                                  <option name = "sentimiento">Sentimientos</option>
+                                </select><br>
+
+                                <label>FECHA INICIAL</label>
+                                <input type="text" name="fechainicio" placeholder="dd/mm/yyyy"/>
+                                <label>FECHA FINAL</label>
+                                <input type="text" name="fechafin"  placeholder="dd/mm/yyyy"/>
+                                <input type="submit"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% if  valores %}
+            <!-- textArea-->
+            <section class="about-section text-center" id="about">
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-lg-8">
+                            <h1>RESULTADO</h1>
+                                <form class="cuadroResultado">
+
+                                    {% for valor in valores %}
+                                        {% for key, value in valor.items %}
+                                            {% if key == "fecha" %}
+                                                <br>
+                                                 <h1>{{ value }}</h1>
+                                                <br>
+                                            {% else %}
+                                                <h5>{{ key }} : {{ value }} mensajes</h5>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </form>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+     <!-- Projects-->
+        <section class="projects-section bg-light" id="projects">
+            <div class="container px-4 px-lg-5">
+                <!-- Featured Project Row-->
+                <div class="align-items-center">
+                    <h1 style="text-align: center; font-family: 'Georgia'; font-size: 70px">GRÁFICAS</h1>
+                    {% for valor in valores %}
+                        <br><br><br><br>
+                    <div>
+                        <canvas id={{ valor.fecha }} width="300px" height="50px"></canvas>
+                        <script>
+                            var Val = [];
+                            var Label = [];
+                            var titulo = "";
+
+                                {% for key, value in valor.items %}
+                                    {% if key == "fecha" %}
+                                    titulo = "{{ value }}";
+                                    {% else %}
+                                        Label.push('{{ key }}');
+                                        Val.push('{{ value }}');
+                                    {% endif %}
+                                {% endfor %}
+                                var ctx = document.getElementById(titulo).getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: Label,
+                                            datasets: [{
+                                                label: titulo,
+                                                data: Val,
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(255, 206, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgba(255, 99, 132, 1)',
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 206, 86, 1)',
+                                                    'rgba(75, 192, 192, 1)',
+                                                    'rgba(153, 102, 255, 1)',
+                                                    'rgba(255, 159, 64, 1)'
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            scales: {
+                                                yAxes: [{
+                                                    ticks: {
+                                                        beginAtZero: true
+                                                    }
+                                                }]
+                                            }
+                                        }
+                                    });
+                            </script>
+                    </div>
+                    {% endfor %}
+                    <img class="img-fluid" src="{% static 'assets/img/pajarito.png' %}"/>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+</body>
+</html>

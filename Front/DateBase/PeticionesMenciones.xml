@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PeticionesMenciones>
+	<usuarios fechaInicio="01/01/2023" fechaFin="30/05/2023">
+		<fecha fecha="15/01/2023">
+			<usuario cantidad="1">@estudiante01</usuario>
+			<usuario cantidad="1">@estudiante02</usuario>
+			<usuario cantidad="1">@Omar234</usuario>
+			<usuario cantidad="1">@Kritina12_2</usuario>
+		</fecha>
+		<fecha fecha="17/03/2023">
+			<usuario cantidad="1">@Omar234</usuario>
+			<usuario cantidad="1">@Kritina12_2</usuario>
+		</fecha>
+		<fecha fecha="22/03/2023">
+			<usuario cantidad="1">@Free_fire</usuario>
+			<usuario cantidad="1">@Garena</usuario>
+			<usuario cantidad="1">@Youtubers</usuario>
+			<usuario cantidad="1">@Nacho</usuario>
+		</fecha>
+	</usuarios>
+</PeticionesMenciones>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<PeticionesHashtags>
+	<hashtags fechaInicio="01/01/2023" fechaFin="30/05/2023">
+		<fecha fecha="15/01/2023">
+			<hashtag cantidad="1">#bienvenidaUSAC#</hashtag>
+			<hashtag cantidad="1">#NuevaVista#</hashtag>
+			<hashtag cantidad="1">#VertePronto#</hashtag>
+			<hashtag cantidad="1">#HoteltNuevaVista#</hashtag>
+		</fecha>
+		<fecha fecha="17/03/2023">
+			<hashtag cantidad="1">#NuevaVista#</hashtag>
+			<hashtag cantidad="1">#VertePronto#</hashtag>
+			<hashtag cantidad="1">#HoteltNuevaVista#</hashtag>
+		</fecha>
+		<fecha fecha="22/03/2023">
+			<hashtag cantidad="1">#Duelos_de_Escuadra#</hashtag>
+			<hashtag cantidad="1">#ModoEscuadra#</hashtag>
+		</fecha>
+	</hashtags>
+</PeticionesHashtags>

@@ -1,10 +1,12 @@
+#Liberias a utilizar
 import xml.etree.ElementTree as ET
 import unicodedata
-from salida import ArchivoSalida
+import re
+
+#Archivos Creados
+from salida import ResumenMensajes, resumenConfig
 from ListaSimple import ListaSimple
 from Fechas import Fecha
-from EliminarDatos import Eliminar
-import re
 from AlmacenarDatos import *
 
 class lecturaxml():
@@ -60,17 +62,16 @@ class lecturaxml():
         if sentimientosPositivos:
             #Recorriendo el for de sentimientos positivos
             for palabra in sentimientosPositivos.findall('palabra'):
-                palabra.text = self.elimina_tildes(palabra.text.lower())
+                palabra.text = self.elimina_tildes(palabra.text.lower().strip())
                 if len(self.senti_nega) == 0:
+
                         #Validando si ya esta agregada esa palabra
                         if self.Existente(palabra.text, self.senti_posi) == False:
-                            palabra.text = self.elimina_tildes(palabra.text.lower())
                             self.senti_posi.append(palabra.text)
                 else:
                     if self.repetidoSentimientoPositivo(palabra.text):
                         #Validando si ya esta agregada esa palabra
-                        if self.Existente(palabra.text, self.senti_posi) == False:
-                            palabra.text = self.elimina_tildes(palabra.text.lower())
+                        if self.Existente(palabra.text.strip(), self.senti_posi) == False:
                             self.senti_posi.append(palabra.text)
                 
     
@@ -78,11 +79,12 @@ class lecturaxml():
         #Recoriendo el for de sientimientos negativos
         if sentimientosNegativos:
             for palabra in sentimientosNegativos.findall('palabra'):
-                palabra.text = self.elimina_tildes(palabra.text.lower())
+                palabra.text = self.elimina_tildes(palabra.text.lower().strip())
+                
                 if self.repetidoSentimientoNegativo(palabra.text):
+
                     #Validando si ya esta agregada esa palabra
                     if self.Existente(palabra.text, self.senti_nega) == False:
-                        palabra.text = self.elimina_tildes(palabra.text.lower())
                         self.senti_nega.append(palabra.text)
 
 
@@ -90,7 +92,7 @@ class lecturaxml():
         GuardarPalabrasNegativas(self.senti_nega)
         GuardarPalabrasPositivasRechazadas(self.senti_posi_rechazados)
         GuardarPalabrasNegativasRechazadas(self.senti_nega_rechazados)
-        ArchivoSalida(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
+        ResumenMensajes(len(self.senti_posi),len(self.senti_nega),len(self.senti_posi_rechazados), len(self.senti_nega_rechazados), "resumenConfig")
 
 #----------------------------------------------------FUNCION PARA LEER MENSAJES----------------------------------------------------------------------------------#
 
@@ -111,7 +113,10 @@ class lecturaxml():
 
             #OBTENIENDO EL TEXTO
             texto = mensaje.find('TEXTO')
+            textooriginal = texto.text
+
             texto.text = texto.text.replace(",","")
+            texto.text = texto.text.replace(".","")
             textoSeparado = texto.text.split()
             fechaEncontrada = ""
             horaEncontrada = ""
@@ -141,10 +146,10 @@ class lecturaxml():
 
                 #AGREGANDO LOS MENSAJES
                 tipo = self.DeterminarSentimientoMensaje(textoSeparado)
-                self.listaFechas.getFin().getDato().agregarMensaje(texto.text, tipo, horaEncontrada)
+                self.listaFechas.getFin().getDato().agregarMensaje(textooriginal, tipo, horaEncontrada)
             
             else:
-                if self.DatoRepetido(texto.text,horaEncontrada):
+                if self.DatoRepetido(textooriginal,horaEncontrada):
                     #AGREGANDO LOS HASTAGS
                     for hastag in textoSeparado:
                         if re.findall(ER_hastag,hastag):
@@ -157,11 +162,10 @@ class lecturaxml():
 
                     #AGREGANDO LOS MENSAJES
                     tipo = self.DeterminarSentimientoMensaje(textoSeparado)
-                    self.fechatemporal.getDato().agregarMensaje(texto.text, tipo, horaEncontrada)
-                else:
-                    print("SE REPITIO")
+                    self.fechatemporal.getDato().agregarMensaje(textooriginal, tipo, horaEncontrada)
                     
         GuardarDatosFecha(self.listaFechas)
+        resumenConfig(self.listaFechas)
 
 #-------------------------------------- FUNCIONES PARA COMPROBRAR REPETIDOS MENSAJES -----------------------------------------------
    
@@ -189,6 +193,7 @@ class lecturaxml():
             for mensaje in Mensajes.findall('mensaje'):
                 Tipo = mensaje.get('tipo')
                 hora = mensaje.get('hora')
+
                 self.listaFechas.getFin().getDato().agregarMensaje(mensaje.text.strip(),Tipo, hora)
 
 
@@ -218,13 +223,23 @@ class lecturaxml():
 
 
 #----------------------------------------FUNCIONES PARA COMPROBRAR SENTIMIENTOS REPETIDOS--------------------------------------------
-    
+    def Existente(self, palabra, arreglo):
+        Existe = False
+        if palabra in arreglo:
+            Existe = True
+        return Existe 
+
+    def elimina_tildes(self,cadena):
+        s = ''.join((c for c in unicodedata.normalize('NFD',cadena) if unicodedata.category(c) != 'Mn'))
+        return s
+
+
     def repetidoSentimientoPositivo(self, palabra):
         unico = True
         for valor in self.senti_nega:
             if valor.lower() == palabra.lower():
                 #Validando si ya esta agregada esa palabra
-                if self.Existente(palabra, self.senti_posi_rechazados) == False:
+                if self.Existente(palabra.strip(), self.senti_posi_rechazados) == False:
                     self.senti_posi_rechazados.append(palabra.lower())
                 unico = False
         return unico
@@ -234,16 +249,11 @@ class lecturaxml():
         for valor in self.senti_posi:
             if valor.lower() == palabra.lower():
                 #Validando si ya esta agregada esa palabra
-                if self.Existente(palabra, self.senti_nega_rechazados) == False:
+                if self.Existente(palabra.strip(), self.senti_nega_rechazados) == False:
                     self.senti_nega_rechazados.append(palabra.lower())
                 unico = False
         return unico
     
-    def elimina_tildes(self,cadena):
-        s = ''.join((c for c in unicodedata.normalize('NFD',cadena) if unicodedata.category(c) != 'Mn'))
-        return s
-
-
     def DeterminarSentimientoMensaje(self, mensajeseparado):
         contadorPositivos = 0
         contadorNegativos = 0
@@ -305,9 +315,74 @@ class lecturaxml():
             fecha = fecha.getSiguiente()
 
 
+#--------------------------------------------------- CLASE ELIMINAR --------------------------------------------------------------
 
 
-#lecturaDicionarioxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
-#lecturaDicionarioxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
-#lecturaxml("DocumentosPrueba/Mensajes.xml")
-#lecturaxml("DocumentosPrueba/Mensajes2.xml")
+class Eliminar():
+    
+    def __init__(self):
+        self.eliminarDatosFechas()
+        self.eliminarDatosSentimientos()
+
+    def eliminarDatosFechas(self):
+        rutafecha = "DateBase/Fechas.xml"
+        archivofechas = ET.parse(rutafecha)
+        fechas = archivofechas.getroot()
+
+        for fecha in fechas.findall('Fecha'):
+            fechas.remove(fecha)
+
+        ET.indent(fechas, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        archivofechas.write("DateBase/Fechas.xml", encoding='utf-8', xml_declaration=True)
+
+    def eliminarDatosSentimientos(self):
+        #Obteniendo las rutas de las bases de datos tipo xml para poder eliminar su contenido
+        rutaPositivos = "DateBase/PalabrasPositivas.xml"
+        rutaNegativos = "DateBase/PalabrasNegativas.xml"
+        rutaPositivosRechazados = "DateBase/PalabrasPosiRechazadas.xml"
+        rutaNegativosRechazados = "DateBase/PalabrasNegaRechazadas.xml"
+
+        archivoPositivos = ET.parse(rutaPositivos)
+        palabrasPositivas = archivoPositivos.getroot()
+
+        archivoNegativos = ET.parse(rutaNegativos)
+        palabrasNegativas= archivoNegativos.getroot()
+
+        archivoPositivosRechazados = ET.parse(rutaPositivosRechazados)
+        palabrasPositivasRechazadas= archivoPositivosRechazados.getroot()
+
+        archivoNegativosRechazados = ET.parse(rutaNegativosRechazados)
+        palabrasNegativasRechazadas= archivoNegativosRechazados.getroot()
+
+        #Recorriendo todas las palabras de cada base de datos y luego aliminandolas
+
+        for palabra in palabrasPositivas.findall('palabra'):
+            palabrasPositivas.remove(palabra)
+
+        for palabra in palabrasNegativas.findall('palabra'):
+            palabrasNegativas.remove(palabra)
+
+        for palabra in palabrasPositivasRechazadas.findall('palabra'):
+            palabrasPositivasRechazadas.remove(palabra)
+
+        for palabra in palabrasNegativasRechazadas.findall('palabra'):
+            palabrasNegativasRechazadas.remove(palabra)
+
+
+        # Guardando los datos nuevamente en los archivos
+        ET.indent(archivoPositivos, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoNegativos, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoPositivosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+        ET.indent(archivoNegativosRechazados, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
+
+        archivoPositivos.write("DateBase/PalabrasPositivas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativos.write("DateBase/PalabrasNegativas.xml", encoding='utf-8', xml_declaration=True)
+        archivoPositivosRechazados.write("DateBase/PalabrasPosiRechazadas.xml", encoding='utf-8', xml_declaration=True)
+        archivoNegativosRechazados.write("DateBase/PalabrasNegaRechazadas.xml", encoding='utf-8', xml_declaration=True)
+
+
+
+#lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario.xml")
+#lecturaxml("C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DocumentosPrueba/Diccionario2.xml")
+lecturaxml("DocumentosPrueba/Mensajes.xml")
+lecturaxml("DocumentosPrueba/Mensajes2.xml")
