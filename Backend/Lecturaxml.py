@@ -171,7 +171,7 @@ class lecturaxml():
    
     def AguardandoDatosFecha_DateBase(self):
             
-        ruta = "DateBase/Fechas.xml"
+        ruta = "Front/DateBase/Fechas.xml"
         archivoFecha = ET.parse(ruta).getroot()
 
 

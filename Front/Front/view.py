@@ -44,7 +44,14 @@ def peticiones(request):
                 for hastag in fecha.findall('hashtag'):
                     valor[hastag.text] = hastag.get('cantidad')
                 valores.append(valor)
-            return render(request, 'Peticiones.html', {"valores": valores})
+
+            mensaje = ""
+            if len(valores) == 0:
+                mensaje = "No se encontraron datos para esta petición"
+            else:
+                mensaje = "Petición realizada con exito"
+
+            return render(request, 'Peticiones.html', {"valores": valores, "mensaje": mensaje})
 
         if opcion == "Menciones":
             url = "http://127.0.0.1:3050/devolverMenciones"
@@ -59,7 +66,13 @@ def peticiones(request):
                 for hastag in fecha.findall('usuario'):
                     valor[hastag.text] = hastag.get('cantidad')
                 valores.append(valor)
-            return render(request, 'Peticiones.html', {"valores": valores})
+
+            mensaje = ""
+            if len(valores) == 0:
+                mensaje = "No se encontraron datos para esta petición"
+            else:
+                mensaje = "Petición realizada con exito"
+            return render(request, 'Peticiones.html', {"valores": valores, "mensaje":mensaje})
 
         if opcion == "Sentimientos":
             url = "http://127.0.0.1:3050/devolverSentimientos"
@@ -78,10 +91,21 @@ def peticiones(request):
                 valor["Sentimientos negativos"] = sentinega.text
                 valor["Sentimientos neutros"] = sentineutro.text
                 valores.append(valor)
-            return render(request, 'Peticiones.html', {"valores": valores})
+            mensaje = ""
+            if len(valores) == 0:
+                mensaje = "No se encontraron datos para esta petición"
+            else:
+                mensaje = "Petición realizada con exito"
+            return render(request, 'Peticiones.html', {"valores": valores, "mensaje": mensaje})
+
     return render(request, 'Peticiones.html')
 
-def prueba(request):
+def eliminar(request):
+    url = "http://127.0.0.1:3050/limpiarDatos"
+    mensaje = post(url)
+    return render(request, 'eliminar.html', {'mensaje': mensaje.json().get("message")})
+
+def prueba2(request):
     ruta = 'DateBase/PeticionesHashtags.xml'
     archivo = ET.parse(ruta).getroot()
     valores = []
@@ -99,3 +123,10 @@ def prueba(request):
     print(valores)
 
     return render(request, 'Pagina2.html', {"valores": valores, "lista": sss})
+
+
+def reporteConfiguraciones(request):
+    return render(request, 'reporte.html')
+
+def reporteDiccionario(request):
+    return render(request, 'reporteDiccionario.html')
