@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 from Lecturaxml import lecturaxml, Eliminar
+from convertirPDF import crearPDFConfig, CrearPDFDiccionario
 from Peticiones import peticiones
 import os
 import re
@@ -22,6 +23,8 @@ def subirArchivo():
     url = "ArchivosEntradas/"+filename
     try:
         lecturaxml(url)
+        crearPDFConfig()
+        CrearPDFDiccionario()
         return jsonify({'archivo': filename, 'message': 'Carga exitosa'})
     except:
         return jsonify({'archivo': filename, 'message': 'Ocurrió un error'})
@@ -53,7 +56,7 @@ def peticionHastags():
                     fechaFinEncontrada = fecha
 
             peticiones("consultarHashtags",fechaInicioEncontrada,fechaFinEncontrada)
-            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PeticionesHashtags.xml')
+            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PeticionesHashtags.xml')
         except:
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
 
@@ -78,7 +81,7 @@ def peticionMencion():
                     fechaFinEncontrada = fecha
 
             peticiones("consultarMenciones",fechaInicioEncontrada,fechaFinEncontrada)
-            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PeticionesMenciones.xml')
+            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PeticionesMenciones.xml')
         except:
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
 
@@ -105,40 +108,40 @@ def peticionSentimientos():
                     fechaFinEncontrada = fecha
 
             peticiones("consultarSentimientos",fechaInicioEncontrada,fechaFinEncontrada)
-            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PeticionesSentimientos.xml')
+            return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PeticionesSentimientos.xml')
         except:
             return jsonify({'message': 'Error en el formato de las fechas: dd/mm/yyyy revise que la fecha sea correcta'}) 
 #------------------------------------------- FUNCIONES POST PARA PEDIR BASE DE DATOS ------------------------------------------------
 
 @app.route('/DB_Mensajes', methods=['GET']) 
 def getMensajes():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/Fechas.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/Fechas.xml')
 
 @app.route('/DB_PalabrasPositivas', methods=['GET']) 
 def getPalabrasPositivas():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PalabrasPositivas.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PalabrasPositivas.xml')
 
 @app.route('/DB_PalabrasNegativas', methods=['GET']) 
 def getPalabrasNegativas():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PalabrasNegativas.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PalabrasNegativas.xml')
     
 @app.route('/DB_PalabrasPositivasRechazadas', methods=['GET']) 
 def getPalabrasPositivasRechazadas():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PalabrasPosiRechazadas.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PalabrasPosiRechazadas.xml')
 
 @app.route('/DB_PalabrasNegativasRechazadas', methods=['GET']) 
 def getPalabrasNegativasRechazadas():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/DateBase/PalabrasNegaRechazadas.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/DateBase/PalabrasNegaRechazadas.xml')
 
 
 @app.route('/ResumenMensajes', methods=['GET']) 
 def getResumenMensajes():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/ArchivosSalidas/resumenMensajes.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/ArchivosSalidas/resumenMensajes.xml')
 
 
 @app.route('/ResumenConfig', methods=['GET']) 
 def getResumenConfig():
-    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/ArchivosSalidas/resumenConfig.xml')
+    return send_file('C:/Users/bryan/Documents/Oswaldo/USAC/2023/SEGUNDO SEMESTRE 2023/IPC 2/LABORATORIO/Proyecto3_IPC2/Proyecto3/IPC2_Proyecto3_201901844/Front/ArchivosSalidas/resumenConfig.xml')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3050)

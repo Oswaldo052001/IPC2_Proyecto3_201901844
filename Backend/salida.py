@@ -28,7 +28,7 @@ class ResumenMensajes():
     def crearArchivo(self):
         arbol = ET.ElementTree(self.root)
         ET.indent(arbol, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
-        arbol.write("ArchivosSalidas/"+self.nombre+".xml", encoding='utf-8', xml_declaration=True)
+        arbol.write("Front/ArchivosSalidas/"+self.nombre+".xml", encoding='utf-8', xml_declaration=True)
 
 
 
@@ -64,5 +64,5 @@ class resumenConfig():
     def crearArchivo(self):
         arbol = ET.ElementTree(self.root)
         ET.indent(arbol, space="\t", level=0)  # Esta linea de codigo ordena la estructura del archivo xml
-        arbol.write("ArchivosSalidas/resumenMensajes.xml", encoding='utf-8', xml_declaration=True)
+        arbol.write("Front/ArchivosSalidas/resumenMensajes.xml", encoding='utf-8', xml_declaration=True)
 
