@@ -100,7 +100,7 @@ for x in valores:
 		if x not in repetido:
 			repetido.append(x)
 
-print("\n".join(map(str, unico)))'''
+print("\n".join(map(str, unico)))
 
 
 ruta = 'DateBase/PeticionesHashtags.xml'
@@ -119,4 +119,22 @@ for k in valor.keys():
     print(k)
 
 for x in valores:
-    print(x)
+    print(x)'''
+
+
+import aspose.pdf as pdf
+
+# Load the license
+license = pdf.License()
+license.set_license("Aspose.Total.lic")
+
+# Create Document class object
+document = pdf.Document()
+
+# Load input XML file
+document.bind_xml("DocumentosPrueba/Diccionario.xml")
+
+# Convert XML to PDF
+document.save("XMLtoPDF.pdf")
+
+print("XML to PDF Converted Successfully")
