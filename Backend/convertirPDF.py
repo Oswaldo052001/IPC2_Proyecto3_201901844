@@ -160,7 +160,4 @@ class crearPDFConfig():
 
     def crearArchivo(self):
         # save the pdf with name .pdf
-        self.pdf.output("Front/static/PDF/DiccionarioConfig.pdf")   
-
-
-CrearPDFDiccionario()
+        self.pdf.output("Front/static/PDF/configuracion.pdf")   
